@@ -71,11 +71,36 @@ public class inventoryexttest {
     }
     static testMethod void testproinfo(){
         Productc__c testproduct = new Productc__c();
+            testproduct.Name='test product';
+            testproduct.Cost_Price__c=20;
+     
+            testproduct.Expiry_Date__c= System.today() + 30;
+            testproduct.MRP__c= 25;
+            testproduct.Quantity_In__c= 500;
+            insert testproduct;
         list<Productc__c> testlst =new list<Productc__c>();
         Test.StartTest(); 
         ApexPages.StandardSetController stdSetController = new ApexPages.StandardSetController(testlst);
         inventoryvfextension ext = new inventoryvfextension(stdSetController);
+        ext.productid=testproduct.Id;
         ext.productinfo();
+        Test.StopTest();
+    } 
+    static testMethod void testproinfo1(){
+        Productc__c testproduct = new Productc__c();
+            testproduct.Name='test product';
+            testproduct.Cost_Price__c=20;
+   
+            testproduct.Expiry_Date__c= System.today() + 30;
+            testproduct.MRP__c= 25;
+            testproduct.Quantity_In__c= 500;
+            insert testproduct;
+        list<Productc__c> testlst =new list<Productc__c>();
+        Test.StartTest(); 
+        ApexPages.StandardSetController stdSetController = new ApexPages.StandardSetController(testlst);
+        inventoryvfextension ext = new inventoryvfextension(stdSetController);
+        ext.productid=testproduct.Id;
+        ext.productinfo1();
         Test.StopTest();
     }
     static testMethod void testnewp() 
@@ -102,44 +127,59 @@ public class inventoryexttest {
         ext.home();
         Test.StopTest();
     }
-     static testMethod void testMethod1()//Testing the insertion method
-        {
-            Productc__c testproduct = new Productc__c();
+
+       static testmethod void testpick(){
+          list<Productc__c> testlst =new list<Productc__c>();
+           Category__c ct= new Category__c();
+        ct.Name='Animal';
+        insert ct;
+        Sub_Category__c st=new Sub_Category__c();
+        st.Name='cat';
+        st.Category__c=ct.Id;
+        insert st;
+          Productc__c testproduct = new Productc__c();
             testproduct.Name='test product';
             testproduct.Cost_Price__c=20;
+        	testproduct.Sub_Category__c=st.Id;
             testproduct.Expiry_Date__c= System.today() + 30;
             testproduct.MRP__c= 25;
             testproduct.Quantity_In__c= 500;
             insert testproduct;
+         Test.StartTest(); 
+         ApexPages.StandardSetController stdSetController = new ApexPages.StandardSetController(testlst);
+        inventoryvfextension ext = new inventoryvfextension(stdSetController);
+           
+        ext.selsub=st.Name;
+        ext.pick();
+        test.stopTest();
+		}
+    static testmethod void testgetcatnames(){
+          list<Productc__c> testlst =new list<Productc__c>();
+	 Category__c ct= new Category__c();
+        ct.Name='Animal';
+        insert ct;
+            Test.StartTest(); 
+        ApexPages.StandardSetController stdSetController = new ApexPages.StandardSetController(testlst);
+        inventoryvfextension ext = new inventoryvfextension(stdSetController);
+        ext.getCatnames();
+        test.stopTest();
+    }
+     static testmethod void testgetSubnames(){
            list<Productc__c> testlst =new list<Productc__c>();
-          ApexPages.StandardSetController stdSetController = new ApexPages.StandardSetController(testlst);
+	 Category__c ct= new Category__c();
+        ct.Name='Animal';
+        insert ct;
+           Sub_Category__c st=new Sub_Category__c();
+        st.Name='cat';
+        st.Category__c=ct.Id;
+        insert st;
+            Test.StartTest(); 
+      ApexPages.StandardSetController stdSetController = new ApexPages.StandardSetController(testlst);
         inventoryvfextension ext = new inventoryvfextension(stdSetController);
-
-            try
-            {
-                ext.saveme();//Call the Method
-            }
-            catch(Exception e)
-            {}
-            list<Productc__c> pro = [select id from Productc__c];//Retrive the record
-            integer i =pro.size();
-            system.assertEquals(1,i);//Test that the record is inserted
-            
-        }    
-     static testMethod void testback() 
-	 {
-         Productc__c testproduct = new Productc__c();
-            list<Productc__c> testlst =new list<Productc__c>();
-		Test.StartTest(); 
-
-			PageReference pageRef = Page.inventoryvf; // Add your VF page Name here
-			Test.setCurrentPage(pageRef);
-
-          ApexPages.StandardSetController stdSetController = new ApexPages.StandardSetController(testlst);
-        inventoryvfextension ext = new inventoryvfextension(stdSetController);
-         ext.back();
-		Test.StopTest();
-	 }
+         ext.selcat1='Animal';
+         ext.getSubnames();
+        test.stopTest();
+    }
 
     
 }

@@ -20,6 +20,18 @@
         <apex:pageBlock title="Home Page">
             <apex:pageBlockButtons location="top">
                 <div class="a">
+                       <apex:outputLabel value="Categorized Products">
+                        <apex:selectList title="Category" value="{!selCat1}" multiselect="false" size="1">
+                            <apex:actionSupport event="onchange" />
+                            <apex:selectOptions value="{!Catnames}">
+                            </apex:selectOptions>
+                        </apex:selectList>
+                        <apex:selectList title="Sub Category" multiselect="false" id="out" size="1" value="{!selsub}">
+                            <apex:actionSupport event="onchange" action="{!pick1}"/>
+                            <apex:selectOptions value="{!subnames}">
+                            </apex:selectOptions>
+                        </apex:selectList>
+                    </apex:outputLabel>
                     <apex:commandButton value="Store Manager" action="{!store}"/>
                     <apex:commandButton value="Inventory Manager" action="{!imsm}"/>
                 </div>
@@ -57,6 +69,15 @@
                     <apex:column value="{!p.Product_SKU__c}"/>
                 </apex:pageBlockTable>
             </apex:pageBlockSection><br/>
+              <apex:pageBlock title="Category Wise Products" rendered="{!flagc}">
+            <apex:pageBlockTable value="{!picklist}" var="p">
+                <apex:column value="{!p.name}" />
+                <apex:column value="{!p.Code_Barcode__c}"/>
+                <apex:column value="{!p.Brand__r.name}"/>
+                <apex:column value="{!p.MRP__c}"/>
+                <apex:column value="{!p.Product_SKU__c}"/>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
             <div style="overflow: scroll; width: 1325px; height: 500px;">
                 <apex:pageBlockSection title="Showing all Products" columns="1" collapsible="false">
                     <apex:pageBlockTable value="{!product}" var="p">

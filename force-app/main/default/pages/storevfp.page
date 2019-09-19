@@ -28,16 +28,30 @@
         <apex:pageBlock title="Store Manager">
             <apex:pageBlockButtons location="top">
                 <div class="a">
+                    <apex:outputLabel value="Categorized Products">
+                        <apex:selectList title="Category" value="{!selCat1}" multiselect="false" size="1">
+                            <apex:actionSupport event="onchange" />
+                            <apex:selectOptions value="{!Catnames1}">
+                            </apex:selectOptions>
+                        </apex:selectList>
+                        <apex:selectList title="Sub Category" multiselect="false" id="out" size="1" value="{!selsub}">
+                            <apex:actionSupport event="onchange" action="{!pick}"/>
+                            <apex:selectOptions value="{!subnames}">
+                            </apex:selectOptions>
+                        </apex:selectList>
+                    </apex:outputLabel>
                     <apex:commandButton value="Clear Search" action="{!viewallproducts}"/>
                     <apex:commandButton value="Goto Home Page" action="{!home}"/>
+                    
                 </div>
             </apex:pageBlockButtons>
+            
             
             <apex:outputLabel value="Product Name"><apex:inputText value="{!pname}"/></apex:outputLabel>&nbsp;
             <apex:outputLabel value="Product Code"><apex:inputText value="{!code}"/></apex:outputLabel>
             <apex:commandButton value="Search" action="{!search}"/>&nbsp;&nbsp;
             <apex:outputLabel value="Product Brand"><apex:inputText value="{!Brand}"/></apex:outputLabel>
-            <apex:commandButton value="Search via Brand" action="{!SearchBrand}"/>
+            <apex:commandButton value="Search via Brand" action="{!SearchBrand}"/><br/>
             
             <apex:pageBlockSection columns="1" id="Brandpg" rendered="{!flagb}">
                 <apex:repeat value="{!brandlist}" var="b">
@@ -63,6 +77,21 @@
                 </apex:repeat>
             </apex:pageBlockSection>
         </apex:pageBlock>
+        <apex:pageBlock title="Category Wise Products" rendered="{!flagc}">
+            <apex:pageBlockTable value="{!picklist}" var="p">
+                <apex:column value="{!p.name}" />
+                <apex:column value="{!p.Code_Barcode__c}"/>
+                <apex:column value="{!p.Brand__r.name}"/>
+                <apex:column value="{!p.MRP__c}"/>
+                <apex:column value="{!p.Product_SKU__c}"/>
+                <apex:column >
+                    <apex:commandLink value="View" action="{!productinfo1}">
+                        <apex:param value="{!p.id}" assignTo="{!productid}" name="productid"/>
+                    </apex:commandLink>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+        
         <apex:pageBlock title="Searched Product" rendered="{!flag1}">
             <apex:pageBlockTable value="{!product}" var="pt"  >
                 <apex:column value="{!pt.name}"/>
@@ -79,9 +108,9 @@
             </apex:pageBlockTable>
             
         </apex:pageBlock>
-        <apex:pageBlock title="List of all Products" >
+        <apex:pageBlock title="List of all Products" rendered="{!flagL}" >
             <apex:pageBlockSection >
-                <apex:pageBlock title="Click View ">
+                <apex:pageBlock title="Click View " rendered="{!flagL1}" >
                     <apex:pageBlockTable value="{!pdt}" var="p">
                         <apex:column value="{!p.name}" />
                         <apex:column value="{!p.Code_Barcode__c}"/>
@@ -114,5 +143,6 @@
                 
             </apex:pageBlockSection>
         </apex:pageBlock>
+        
     </apex:form>
 </apex:page>

@@ -25,6 +25,18 @@
         <apex:pageBlock title="Inventory Manager" >
             <apex:pageBlockButtons location="top">
                 <div class="a">
+                     <apex:outputLabel value="Categorized Products">
+                        <apex:selectList title="Category" value="{!selCat1}" multiselect="false" size="1">
+                            <apex:actionSupport event="onchange" />
+                            <apex:selectOptions value="{!Catnames}">
+                            </apex:selectOptions>
+                        </apex:selectList>
+                        <apex:selectList title="Sub Category" multiselect="false" id="out" size="1" value="{!selsub}">
+                            <apex:actionSupport event="onchange" action="{!pick}"/>
+                            <apex:selectOptions value="{!subnames}">
+                            </apex:selectOptions>
+                        </apex:selectList>
+                    </apex:outputLabel>
                     <apex:commandButton value="Clear Search" action="{!viewallproducts}"/>
                     <apex:commandButton value="New Product" action="{!newproduct}"/>
                     <apex:commandButton value="Goto Home Page" action="{!home}"/>
@@ -59,6 +71,21 @@
                 </apex:repeat>
             </apex:pageBlockSection>
         </apex:pageBlock>
+          <apex:pageBlock title="Category Wise Products" rendered="{!flagc}">
+            <apex:pageBlockTable value="{!picklist}" var="p">
+                <apex:column value="{!p.name}" />
+                <apex:column value="{!p.Code_Barcode__c}"/>
+                <apex:column value="{!p.Brand__r.name}"/>
+                <apex:column value="{!p.MRP__c}"/>
+                <apex:column value="{!p.Product_SKU__c}"/>
+                <apex:column >
+                    <apex:commandLink value="View" action="{!productinfo1}">
+                        <apex:param value="{!p.id}" assignTo="{!productid}" name="productid"/>
+                    </apex:commandLink>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+        
         <apex:pageBlock title="Searched Product" rendered="{!flag1}">
             <apex:pageBlockTable value="{!product}" var="pt"  >
                 <apex:column value="{!pt.name}"/>
