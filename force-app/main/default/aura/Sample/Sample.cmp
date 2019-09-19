@@ -1,0 +1,20 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="cat" type="Category__c" />
+    <lightning:card>
+    	<lightning:layout>
+            <lightning:layoutitem>
+            	 <div class="slds-form-element__control">
+                        <lightning:select name="select1" label="Category" value="{!v.cat.name}">
+                            <option value="">choose one...</option>
+                            <aura:iteration items="{!v.cat.name}" var="c">
+                             <option value="{!c}">{!c}</option>
+                            
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+            </lightning:layoutitem>
+        </lightning:layout>
+         <lightning:button label="Save" variant="brand" onclick="{!c.savecat}" />
+        <lightning:button label="cancel" variant="brand" onclick="{!c.cancel}" />
+    </lightning:card>
+</aura:component>

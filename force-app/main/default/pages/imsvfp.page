@@ -1,0 +1,73 @@
+<apex:page title="IMS" controller="imsapex" sidebar="false" showHeader="false"  >
+    <style>
+        .abc{
+        padding:10px;
+        background-color:#AFBCC5;
+        }
+        .a{
+        text-align:center;
+        float:right;
+        } </style>
+    <apex:form >  
+        <apex:slds />
+        <h1 style="font-family:palatinolinotype;text-align:center;font-size:30px;">
+            <div class="abc">
+                <center><apex:image value="{!$Resource.ims2}" width="18%"></apex:image></center>
+                <center><b> INVENTORY MANAGEMENT SYSTEM</b></center>
+            </div>
+        </h1>
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:pageBlock title="Home Page">
+            <apex:pageBlockButtons location="top">
+                <div class="a">
+                    <apex:commandButton value="Store Manager" action="{!store}"/>
+                    <apex:commandButton value="Inventory Manager" action="{!imsm}"/>
+                </div>
+            </apex:pageBlockButtons>
+            <apex:outputLabel value="Product Name"><apex:inputText value="{!pname}" /></apex:outputLabel>
+            <apex:outputLabel value="Product Code"><apex:inputText value="{!code}"/></apex:outputLabel>
+            <apex:commandButton value="Search" action="{!search}"/>
+            <apex:outputLabel value="Product Brand"><apex:inputText value="{!Brand}"/></apex:outputLabel>
+            <apex:commandButton value="Search via Brand" action="{!SearchBrand}"/>
+            <apex:commandButton value="Clear Search" action="{!products}" style="float:right;" />
+            
+            <apex:pageBlockSection columns="1" id="Brandpg" rendered="{!flagb}">
+                <apex:repeat value="{!brandlist}" var="b">
+                    <apex:pageBlockSection title="{!b.name}" collapsible="false">
+                        <apex:pageBlockTable value="{!b.products__r}" var="pro" >
+                            <apex:column headerValue="Name">
+                                <apex:outputText value="{!pro.name}"></apex:outputText>
+                            </apex:column>
+                            <apex:column headerValue="Code">
+                                <apex:outputText value="{!pro.Code_Barcode__c}"></apex:outputText>
+                            </apex:column>
+                            <apex:column headerValue="SKU">
+                                <apex:outputText value="{!pro.Product_SKU__c}"></apex:outputText>
+                            </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageBlockSection>
+                </apex:repeat>
+            </apex:pageBlockSection><br/>
+            <apex:pageBlockSection title="Searched Products" columns="1" collapsible="false" rendered="{!flag1}">
+                <apex:pageBlockTable value="{!productsearch}" var="p" id="SearchResult" >
+                    <apex:column value="{!p.name}"/>
+                    <apex:column value="{!p.Code_Barcode__c}"/>
+                    <apex:column value="{!p.Brand__c}"/>
+                    <apex:column value="{!p.MRP__c}"/>
+                    <apex:column value="{!p.Product_SKU__c}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection><br/>
+            <div style="overflow: scroll; width: 1325px; height: 500px;">
+                <apex:pageBlockSection title="Showing all Products" columns="1" collapsible="false">
+                    <apex:pageBlockTable value="{!product}" var="p">
+                        <apex:column value="{!p.name}"/>
+                        <apex:column value="{!p.Code_Barcode__c}"/>
+                        <apex:column value="{!p.Brand__c}"/>
+                        <apex:column value="{!p.MRP__c}"/>
+                        <apex:column value="{!p.Product_SKU__c}"/>
+                    </apex:pageBlockTable>
+                </apex:pageBlockSection>
+            </div>
+        </apex:pageBlock>
+    </apex:form>   
+</apex:page>

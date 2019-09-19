@@ -1,0 +1,136 @@
+<apex:page standardController="Productc__c" title="Inventory Manager" showHeader="false" sidebar="false" recordSetVar="pdt" extensions="inventoryvfextension">
+    <style>
+        .abc{
+        padding:10px;
+        background-color:#E8BE55;       
+        }
+        .a{
+        text-align:center;
+        float:right;
+        }
+        
+        
+    </style>
+    <apex:form >
+        <apex:slds />
+        <h1 style="font-family:palatinolinotype;text-align:center;font-size:30px;">
+            
+            <div class="abc">
+                <apex:image value="{!$Resource.ims1}" width="12%"></apex:image>
+                <center><b> INVENTORY MANAGEMENT SYSTEM</b></center>
+            </div>
+            
+        </h1>
+        <apex:pageMessages ></apex:pageMessages>
+        <apex:pageBlock title="Inventory Manager" >
+            <apex:pageBlockButtons location="top">
+                <div class="a">
+                    <apex:commandButton value="Clear Search" action="{!viewallproducts}"/>
+                    <apex:commandButton value="New Product" action="{!newproduct}"/>
+                    <apex:commandButton value="Goto Home Page" action="{!home}"/>
+                </div>
+            </apex:pageBlockButtons>    
+            <apex:outputLabel value="Product Name"><apex:inputText value="{!pname}"/></apex:outputLabel>&nbsp;
+            <apex:outputLabel value="Product Code"><apex:inputText value="{!code}"/></apex:outputLabel>
+            <apex:commandButton value="Search" action="{!search}"/>&nbsp;&nbsp;
+            <apex:outputLabel value="Product Brand"><apex:inputText value="{!Brand}"/></apex:outputLabel>
+            <apex:commandButton value="Search via Brand" action="{!SearchBrand}"/>
+            
+            <apex:pageBlockSection columns="1" id="Brandpg" rendered="{!flagb}">
+                <apex:repeat value="{!brandlist}" var="b">
+                    <apex:pageBlockSection title="{!b.name}" collapsible="false">
+                        <apex:pageBlockTable value="{!b.products__r}" var="pro" >
+                            <apex:column headerValue="Name">
+                                <apex:outputText value="{!pro.name}"></apex:outputText>
+                            </apex:column>
+                            <apex:column headerValue="Code">
+                                <apex:outputText value="{!pro.Code_Barcode__c}"></apex:outputText>
+                            </apex:column>
+                            <apex:column headerValue="SKU">
+                                <apex:outputText value="{!pro.Product_SKU__c}"></apex:outputText>
+                            </apex:column>      
+                            <apex:column >
+                                <apex:commandLink value="View" action="{!productinfo}">
+                                    <apex:param value="{!pro.id}" assignTo="{!productid}" name="productid"/>
+                                </apex:commandLink>
+                            </apex:column>   
+                        </apex:pageBlockTable>
+                    </apex:pageBlockSection>
+                </apex:repeat>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:pageBlock title="Searched Product" rendered="{!flag1}">
+            <apex:pageBlockTable value="{!product}" var="pt"  >
+                <apex:column value="{!pt.name}"/>
+                <apex:column value="{!pt.Code_Barcode__c}"/>
+                <apex:column value="{!pt.Brand__r.name}"/>
+                <apex:column value="{!pt.Product_SKU__c}"/>
+                <apex:column >
+                    <apex:commandLink value="View" action="{!productinfo}">
+                        <apex:param value="{!pt.id}" assignTo="{!productid}" name="productid"/>
+                    </apex:commandLink>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="List of all Products" >
+            <apex:pageBlockSection >
+                <apex:pageBlock title="Click View ">
+                    <apex:pageBlockTable value="{!pdt}" var="p" columnsWidth="5px">
+                        <apex:column value="{!p.name}" />
+                        <apex:column value="{!p.Code_Barcode__c}"/>
+                        <apex:column value="{!p.Brand__r.name}"/>
+                        <apex:column value="{!p.MRP__c}"/>
+                        <apex:column value="{!p.Product_SKU__c}"/>
+                        <apex:column >
+                            <apex:commandLink value="View" action="{!productinfo}">
+                                <apex:param value="{!p.id}" assignTo="{!productid}" name="productid"/>
+                            </apex:commandLink>
+                        </apex:column>
+                        <apex:column >
+                            <apex:commandLink value="Place Order" action="{!placeorder}">
+                                <apex:param value="{!p.id}" assignTo="{!transid}" name="transid"/>
+                                <apex:param value="{!p.name}" assignTo="{!tname}" name="product name"/>
+                            </apex:commandLink>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageBlock>
+                <apex:pageBlock title=" Details of Product" rendered="{!flag}">
+                    <apex:pageBlockSection rendered="{!flag2}" columns="2">
+                       <apex:outputField value="{!product1.name}"/>
+                        <apex:outputField value="{!product1.Code_Barcode__c}"/>
+                        <apex:outputField value="{!product1.Brand__r.name}"/>
+                        <apex:outputField value="{!product1.Product_SKU__c}"/>
+                        <apex:outputField value="{!product1.MRP__c}"/>
+                        <apex:outputField value="{!product1.Quantity_In__c}"/>
+                        <apex:outputField value="{!product1.Quantity_In_Store__c}"/>
+                        <apex:outputField value="{!product1.Quantity_Out__c}"/>
+                        <apex:outputField value="{!product1.Availability__c}"/>
+                        <apex:outputLabel value="Net Quantity ">&nbsp;&nbsp;
+                            <apex:outputText value="{!product1.Amount_of_Measuring_Type__c} {!product1.Measuring_Type__c}"/></apex:outputLabel>
+                     <apex:pageBlockSectionItem >
+                            <apex:commandLink value="View order" action="{!transinfo}" style="Font">
+                                <apex:param value="{!product1.id}" assignTo="{!transid}" name="productid"/>
+                            </apex:commandLink>
+                        </apex:pageBlockSectionItem>
+                          <apex:pageBlockSectionItem >
+                            <apex:commandLink value="Place Order" action="{!placeorder}">
+                                <apex:param value="{!product1.id}" assignTo="{!transid}" name="transid"/>
+                                <apex:param value="{!product1.name}" assignTo="{!tname}" name="product name"/>
+                            </apex:commandLink>
+                     </apex:pageBlockSectionItem>
+                    </apex:pageBlockSection>
+                    <apex:pageBlockSection title="Transactions" rendered="{!flagt}" collapsible="false">
+                        <apex:pageBlockTable value="{!trans}" var="t1" columnsWidth="5px">
+                            <apex:column value="{!t1.name}"/>
+                            <apex:column value="{!t1.Order_Status__c}"/>
+                            <apex:column value="{!t1.Transaction_Type__c}"/>
+                            <apex:column value="{!t1.Order_Placed_Date__c}"/>
+                            <apex:column value="{!t1.Quantity__c}"/>
+                        </apex:pageBlockTable>
+                    </apex:pageBlockSection>
+                </apex:pageBlock>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

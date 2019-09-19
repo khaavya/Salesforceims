@@ -1,0 +1,48 @@
+<apex:page standardController="Productc__c" extensions="newproductextension"  title="New Product">
+    <style>
+        .abc{
+        padding:10px;
+        background-color:black;
+        }
+    </style>
+    <apex:form >
+        <apex:slds />
+        <h1 style="font-family:palatinolinotype;text-align:center;font-size:30px;">
+            
+            <div class="abc">
+                <apex:image value="{!$Resource.ims10}" width="13%"></apex:image>
+            </div>
+            
+        </h1>
+        <apex:pageMessages />
+        <apex:pageBlock title="Enter Details of New Product" >
+           
+                <apex:pageBlockSection title="Basic Info" collapsible="false">
+                    <apex:inputField value="{!Productc__c.name}"/>
+                    <apex:inputField value="{!Productc__c.Sub_Category__c}"/>
+                    <apex:inputField value="{!Productc__c.Brand__c}" />
+                    
+                    <apex:inputField value="{!Productc__c.Cost_Price__c}"/>
+                    <apex:inputField value="{!Productc__c.MRP__c}"/>
+                    <apex:inputField value="{!Productc__c.Expiry_Date__c}" />
+                    <apex:inputField value="{!Productc__c.Availability__c}"/>
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection title="Additional Info" collapsible="false">
+                <apex:inputField value="{!Productc__c.Product_SKU__c}"/>
+                <apex:inputField value="{!Productc__c.Amount_of_Measuring_Type__c}"/>
+                <apex:inputField value="{!Productc__c.Measuring_Type__c}"/>                  
+                <apex:inputField value="{!Productc__c.Quantity_In__c}"/>
+                <apex:inputField value="{!Productc__c.Quantity_In_Store__c}"/>
+                <apex:inputField value="{!Productc__c.Quantity_Out__c}"/>
+                </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton action="{!saveme}" value="Add Product">
+                 
+                </apex:commandButton>
+                <apex:commandButton value="Go Back" action="{!back}"/>
+            </apex:pageBlockButtons>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
