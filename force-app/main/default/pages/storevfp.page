@@ -31,7 +31,7 @@
                     <apex:outputLabel value="Categorized Products">
                         <apex:selectList title="Category" value="{!selCat1}" multiselect="false" size="1">
                             <apex:actionSupport event="onchange" />
-                            <apex:selectOptions value="{!Catnames1}">
+                            <apex:selectOptions value="{!Catnames}">
                             </apex:selectOptions>
                         </apex:selectList>
                         <apex:selectList title="Sub Category" multiselect="false" id="out" size="1" value="{!selsub}">
@@ -55,7 +55,7 @@
             
             <apex:pageBlockSection columns="1" id="Brandpg" rendered="{!flagb}">
                 <apex:repeat value="{!brandlist}" var="b">
-                    <apex:pageBlockSection title="{!b.name}" collapsible="false">
+                    <apex:pageBlockSection title="{!b.name}" collapsible="false" columns="1">
                         <apex:pageBlockTable value="{!b.products__r}" var="pro" >
                             <apex:column headerValue="Name">
                                 <apex:outputText value="{!pro.name}"></apex:outputText>
@@ -78,18 +78,42 @@
             </apex:pageBlockSection>
         </apex:pageBlock>
         <apex:pageBlock title="Category Wise Products" rendered="{!flagc}">
-            <apex:pageBlockTable value="{!picklist}" var="p">
-                <apex:column value="{!p.name}" />
-                <apex:column value="{!p.Code_Barcode__c}"/>
-                <apex:column value="{!p.Brand__r.name}"/>
-                <apex:column value="{!p.MRP__c}"/>
-                <apex:column value="{!p.Product_SKU__c}"/>
-                <apex:column >
-                    <apex:commandLink value="View" action="{!productinfo1}">
-                        <apex:param value="{!p.id}" assignTo="{!productid}" name="productid"/>
-                    </apex:commandLink>
-                </apex:column>
-            </apex:pageBlockTable>
+            <apex:pageBlockSection > 
+                <apex:pageBlock >
+                    <apex:pageBlockTable value="{!picklist}" var="p">
+                        <apex:column value="{!p.name}" />
+                        <apex:column value="{!p.Code_Barcode__c}"/>
+                         <apex:column value="{!p.Sub_Category__r.name}"/>
+                        <apex:column value="{!p.Brand__r.name}"/>
+                        <apex:column value="{!p.MRP__c}"/>
+                        <apex:column value="{!p.Product_SKU__c}"/>
+                        
+                        <apex:column >
+                            <apex:commandLink value="View" action="{!productinfo1}">
+                                <apex:param value="{!p.id}" assignTo="{!productid}" name="productid"/>
+                            </apex:commandLink>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageBlock>
+                
+                <apex:pageBlock title=" Details of Product" rendered="{!flagL1}">
+                    <apex:pageBlockSection columns="2" >
+                        <apex:outputField value="{!product1.name}"/>
+                        <apex:outputField value="{!product1.Code_Barcode__c}"/>
+                        <apex:outputField value="{!product1.Brand__r.name}"/>
+                        <apex:outputField value="{!product1.Product_SKU__c}"/>
+                        <apex:outputField value="{!product1.MRP__c}"/>
+                        <apex:outputField value="{!product1.Quantity_In__c}"/>
+                        <apex:outputField value="{!product1.Quantity_In_Store__c}"/>
+                        <apex:outputField value="{!product1.Quantity_Out__c}"/>
+                        <apex:outputField value="{!product1.Availability__c}"/>
+                        <apex:outputLabel value="Net Quantity ">&nbsp;&nbsp;
+                            <apex:outputText value="{!product1.Amount_of_Measuring_Type__c} {!product1.Measuring_Type__c}"/></apex:outputLabel>
+                        
+                    </apex:pageBlockSection>
+                </apex:pageBlock>
+            </apex:pageBlockSection>
+            
         </apex:pageBlock>
         
         <apex:pageBlock title="Searched Product" rendered="{!flag1}">
@@ -108,9 +132,14 @@
             </apex:pageBlockTable>
             
         </apex:pageBlock>
+        
+                    
         <apex:pageBlock title="List of all Products" rendered="{!flagL}" >
             <apex:pageBlockSection >
-                <apex:pageBlock title="Click View " rendered="{!flagL1}" >
+              
+              
+                <apex:pageBlock title="Click View "  >
+                     <div  style="overflow: scroll; height:500px;">
                     <apex:pageBlockTable value="{!pdt}" var="p">
                         <apex:column value="{!p.name}" />
                         <apex:column value="{!p.Code_Barcode__c}"/>
@@ -123,7 +152,9 @@
                             </apex:commandLink>
                         </apex:column>
                     </apex:pageBlockTable>
+                         </div>
                 </apex:pageBlock>
+                
                 <apex:pageBlock title=" Details of Product" rendered="{!flag2}">
                     <apex:pageBlockSection columns="2" >
                         <apex:outputField value="{!product1.name}"/>
@@ -143,6 +174,7 @@
                 
             </apex:pageBlockSection>
         </apex:pageBlock>
+            
         
     </apex:form>
 </apex:page>

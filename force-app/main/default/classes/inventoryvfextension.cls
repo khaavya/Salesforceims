@@ -73,12 +73,14 @@ public with sharing class inventoryvfextension {
             flag1=true;
             flag2=false;
             flagt=false;
+            flagc=false;
         }
     }
     public void SearchBrand(){
         
         flag=false;
         flagb=true;
+        flagc=false;
         flag1=false;
         brandlist=[select name,(select name,Code_Barcode__c,Brand__r.name,Product_SKU__c,MRP__c from Products__r) from account where name like:brand];
     }
@@ -106,13 +108,13 @@ public with sharing class inventoryvfextension {
         system.debug(product);
     }
     public void productinfo1(){
-        flag=true;
+        flag=false;
         flag1=false;
-        flag2=true;
+        flag2=false;
         flagt=false;
         flagc=true;
-        flagL=true;
-        flagL1=false;
+        flagL=false;
+        flagL1=true;
         product1=[select id,name,Code_Barcode__c,Brand__r.name,Product_SKU__c,MRP__c,Amount_of_Measuring_Type__c,Measuring_Type__c,Quantity_In__c,Quantity_In_Store__c,Quantity_Out__c,Availability__c from Productc__c where id=:productid];
         system.debug(product);
     }
@@ -139,12 +141,15 @@ public with sharing class inventoryvfextension {
         brand=null;
         pname=null;
         code=null;
+        selcat1=null;
+        selsub=null;
+        picklist=null;
         brandlist=null;
     }
     public String selCat1 {get;set;}
-     public String selsub {get;set;}
-     public list<Productc__c> picklist {set;get;}
-   
+    public String selsub {get;set;}
+    public list<Productc__c> picklist {set;get;}
+    
     
     public List<selectOption> getCatnames() {
         List<selectOption> CatOptions = new List<selectOption>();
@@ -154,7 +159,7 @@ public with sharing class inventoryvfextension {
         }
         return CatOptions;
     }
-     public List<selectOption> getSubnames() {
+    public List<selectOption> getSubnames() {
         
         List<selectOption> SubOptions = new List<selectOption>();
         SubOptions.clear();
@@ -173,7 +178,7 @@ public with sharing class inventoryvfextension {
         flagt=false;
         flagb=false;
         flagc=true;
-        flagL=true;
+        flagL=false;
         flagL1=false;
         picklist = [select id,name,Code_Barcode__c,Brand__r.name,Product_SKU__c,MRP__c,Sub_Category__r.name from Productc__c where Sub_Category__r.name =: selsub ];
     }

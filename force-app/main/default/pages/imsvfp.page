@@ -20,7 +20,7 @@
         <apex:pageBlock title="Home Page">
             <apex:pageBlockButtons location="top">
                 <div class="a">
-                       <apex:outputLabel value="Categorized Products">
+                    <apex:outputLabel value="Categorized Products">
                         <apex:selectList title="Category" value="{!selCat1}" multiselect="false" size="1">
                             <apex:actionSupport event="onchange" />
                             <apex:selectOptions value="{!Catnames}">
@@ -45,7 +45,7 @@
             
             <apex:pageBlockSection columns="1" id="Brandpg" rendered="{!flagb}">
                 <apex:repeat value="{!brandlist}" var="b">
-                    <apex:pageBlockSection title="{!b.name}" collapsible="false">
+                    <apex:pageBlockSection title="{!b.name}" collapsible="false" columns="1">
                         <apex:pageBlockTable value="{!b.products__r}" var="pro" >
                             <apex:column headerValue="Name">
                                 <apex:outputText value="{!pro.name}"></apex:outputText>
@@ -61,34 +61,39 @@
                 </apex:repeat>
             </apex:pageBlockSection><br/>
             <apex:pageBlockSection title="Searched Products" columns="1" collapsible="false" rendered="{!flag1}">
-                <apex:pageBlockTable value="{!productsearch}" var="p" id="SearchResult" >
-                    <apex:column value="{!p.name}"/>
-                    <apex:column value="{!p.Code_Barcode__c}"/>
-                    <apex:column value="{!p.Brand__c}"/>
-                    <apex:column value="{!p.MRP__c}"/>
-                    <apex:column value="{!p.Product_SKU__c}"/>
+                <apex:pageBlockTable value="{!productsearch}" var="p1" id="SearchResult" >
+                    <apex:column value="{!p1.name}"/>
+                    <apex:column value="{!p1.Code_Barcode__c}"/>
+                    <apex:column value="{!p1.Brand__c}"/>
+                    <apex:column value="{!p1.MRP__c}"/>
+                    <apex:column value="{!p1.Product_SKU__c}"/>
                 </apex:pageBlockTable>
             </apex:pageBlockSection><br/>
-              <apex:pageBlock title="Category Wise Products" rendered="{!flagc}">
-            <apex:pageBlockTable value="{!picklist}" var="p">
-                <apex:column value="{!p.name}" />
-                <apex:column value="{!p.Code_Barcode__c}"/>
-                <apex:column value="{!p.Brand__r.name}"/>
-                <apex:column value="{!p.MRP__c}"/>
-                <apex:column value="{!p.Product_SKU__c}"/>
-            </apex:pageBlockTable>
-        </apex:pageBlock>
-            <div style="overflow: scroll; width: 1325px; height: 500px;">
-                <apex:pageBlockSection title="Showing all Products" columns="1" collapsible="false">
-                    <apex:pageBlockTable value="{!product}" var="p">
-                        <apex:column value="{!p.name}"/>
-                        <apex:column value="{!p.Code_Barcode__c}"/>
-                        <apex:column value="{!p.Brand__c}"/>
-                        <apex:column value="{!p.MRP__c}"/>
-                        <apex:column value="{!p.Product_SKU__c}"/>
+            <apex:pageBlock title="Category Wise Products" rendered="{!flagc}">
+                <apex:pageBlockTable value="{!picklist}" var="p2">
+                    <apex:column value="{!p2.name}" />
+                    <apex:column value="{!p2.Code_Barcode__c}"/>
+                    <apex:column value="{!p2.Sub_Category__r.name}"/>
+                    <apex:column value="{!p2.Brand__r.name}"/>
+                    <apex:column value="{!p2.MRP__c}"/>
+                    <apex:column value="{!p2.Product_SKU__c}"/>
+                    
+                    
+                </apex:pageBlockTable>
+            </apex:pageBlock>
+         
+                <apex:pageBlockSection title="List of all Products" columns="1" collapsible="false">
+                      
+                    <apex:pageBlockTable value="{!product}" var="p3">
+                        <apex:column value="{!p3.name}"/>
+                        <apex:column value="{!p3.Code_Barcode__c}"/>
+                        <apex:column value="{!p3.Brand__c}"/>
+                        <apex:column value="{!p3.MRP__c}"/>
+                        <apex:column value="{!p3.Product_SKU__c}"/>
                     </apex:pageBlockTable>
+                           
                 </apex:pageBlockSection>
-            </div>
+         
         </apex:pageBlock>
     </apex:form>   
 </apex:page>

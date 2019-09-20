@@ -6,8 +6,6 @@ public class imsapex {
     
     //flags for abstraction/ hiding details 
     public boolean flag1{set;get;}
-    public boolean flag2{set;get;}
-    public boolean flag3{set;get;}
     public boolean flagb{set;get;}
      public boolean flagc{set;get;}
     public boolean flagL{set;get;}
@@ -24,9 +22,9 @@ public class imsapex {
         product=new list<Productc__c>();
         product=[select name,Code_Barcode__c,Brand__r.name,Product_SKU__c,MRP__c from Productc__c];
         flag1=false;
-        flag2=false;
-        flag3=false;
+      
         flagb=false;
+        flagc=false;
     }
     public void search(){        
         //to get fields on search 
@@ -57,18 +55,22 @@ public class imsapex {
             }
             productsearch = database.query(q);
             flag1=true;
+            flagc=false;
         }
         
     }
     public pagereference products(){
         flag1=false;
-        flag2=false;
-        flag3=false;
+    
         flagb=false;
+        flagc=false;
         brand=null;
         pname=null;
         code=null;
         brandlist=null;
+        selcat1=null;
+        selsub=null;
+        picklist=null;
         product=[select name,Code_Barcode__c,Brand__r.name,Product_SKU__c,MRP__c from Productc__c];
         return null;     
     } 
@@ -84,21 +86,17 @@ public class imsapex {
             }
             brandlist = database.query(q);
             	 flagb=true;
+            flagc=false;
         }
     }
     
     public pagereference store(){
-        flag1=false;
-        flag2= true;
-        flag3=false;
         PageReference pr = new PageReference('/apex/storevfp'); 
         pr.setRedirect(true);
         return pr;
     }
     public PageReference imsm(){
-        flag1=false;
-        flag2=false;
-        flag3=true;
+        
         PageReference pr = new PageReference('/apex/inventoryvf'); 
         pr.setRedirect(true);
         return pr;
@@ -130,8 +128,7 @@ public class imsapex {
     
     public void pick1(){
         flag1=false;
-        flag2=false;
-        flag3=false;
+      
         flagb=false;
        
         flagc=true;
